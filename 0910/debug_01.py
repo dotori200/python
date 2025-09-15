@@ -3,4 +3,4 @@ def say_hello(name):
 
 name = '홍길동'
 result = say_hello(name)
-print(result)
+print(result)  
