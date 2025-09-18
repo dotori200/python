@@ -13,6 +13,7 @@ class NumberGuessingGame:
         self.attempts = 0
 
     def guess(self, user_guess):
+        
         self.attempts += 1
         if user_guess < self.number_to_guess:
             return "너무 작습니다."
