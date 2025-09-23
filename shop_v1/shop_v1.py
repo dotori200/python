@@ -1,25 +1,60 @@
+# pip install pymysql # mysql을 접속할 수 있는 라이브러리
+# pip install dotenv  # 환경변수 .env를 로드할수 있는 라이브러리
 import pymysql
-# 1. DB 연동 
-conn = pymysql.connect (
-    host = "127.0.0.1",
-    user = "root",
-    password = 'root1234',
-    database = 'shop_db'
+from dotenv import load_dotenv
+import os
+# .env 로드
+load_dotenv()
+
+# 1. DB 연결
+conn = pymysql.connect(
+    host = os.getenv('DB_HOST'),
+    user = os.getenv('DB_USER'),
+    password = os.getenv('DB_PASSWORD'),
+    database=os.getenv('DB_NAME') 
 )
+print('접속성공')
 
-print ('접속 성공')
-conn.close() # 접속 해제
-
-# 2. 각 테이블 별 
+# 2. 각 테이블별 
     # C - insert
     # R - select
     # U - update
     # D - delete
-# 3. 메소드
+
+# 고객 - customer   
+def create_customer(name):
+    sql = 'insert into customer values(null,%s)'
+    cur = conn.cursor()
+    cur.execute(sql, name)
+    conn.commit()
+    print('고객추가 완료')
+
+def readAll_customers(isDict = False):
+    sql = 'select * from customer'     
+    
+    if isDict:
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute(sql)
+        for c in cur.fetchall():             
+            print(f"{c['customer_id']}  {c['name']}")
+    else:
+        cur = conn.cursor()
+        cur.execute(sql)
+        for c in cur.fetchall():            
+            print(f'{c[0]}  {c[1]}')
+    print('조회완료')
+    
+create_customer('이순신')
+readAll_customers(isDict = False)
+
+
+# 3.메소드
     # 회원가입
     # 상품정보 출력
     # 상품구입
     # 상품정보 입력
-    # 대쉬보드 : 고객별, 구매횟수, 평균구매액
+    # 대쉬보드 : 고객별 상품별 구매회수, 평균구매액
 
-# 4. 기능 구현과 테스트가 되면 -> streamlit
+# 4 기능구현과 테스트가 되면..  streamlit으로 UI 구성 - 템플릿화면을 보고 유사한 형태로 구현
+
+conn.close()  # 접속해제
