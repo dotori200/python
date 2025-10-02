@@ -15,7 +15,6 @@ def get_connection():
 import crawlingcoffee
 # 터미널에서 pip install tqdm.tqdm
 
-
 datas = crawlingcoffee.get_data(1)
 with get_connection() as conn:
     with conn.cursor() as cur:

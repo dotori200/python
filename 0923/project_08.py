@@ -85,7 +85,7 @@ try:
     """)
     # 데이터 삽입 (중복 질문은 무시)
     cur.executemany(
-        "INSERT IGNORE INTO ev_faq (company, category, question, answer) VALUES (%s,%s,%s,%s)",
+        "INSERT IGNORE INTO ev_faq (category, question, answer) VALUES (%s,%s,%s,%s)",
         rows
     )
     conn.commit()

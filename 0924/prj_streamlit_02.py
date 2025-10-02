@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import pymysql
+import html
 
 # ====== DB 연결 정보 ======
 DB_HOST = "localhost"
